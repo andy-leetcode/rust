@@ -1,0 +1,1 @@
+std::iter::Map<std::iter::Enumerate<std::slice::Iter<'_, i32>>, for<'a, 'b> fn((usize, &'a i32), &'b std::vec::Vec<i32>) -> u8 {Solution::is_palindrome::compare_digits}>
