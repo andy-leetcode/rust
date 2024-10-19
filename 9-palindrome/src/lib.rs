@@ -18,7 +18,6 @@ impl SolutionUsingStr {
 /// Return the order in decimal units (eg 1B = 10^9, so return 9)
 pub fn get_order(x: i32) -> i32 {
     (0..10)
-        .into_iter()
         .rev()
         .filter(|i| x > 10_u32.pow(i.to_owned()).try_into().unwrap())
         .max()
@@ -42,14 +41,17 @@ impl Solution {
     pub fn is_palindrome(x: i32) -> bool {
         let order = get_order(x);
         let reversed_digits = (0..=order)
-            .into_iter()
             .rev()
             .map(|order| get_order_digit(x, order))
             .rev()
             .collect::<Vec<i32>>();
-        let digits = &reversed_digits.into_iter().rev().collect::<Vec<i32>>();
+        let digits = reversed_digits
+            .clone()
+            .into_iter()
+            .rev()
+            .collect::<Vec<i32>>();
 
-        fn compare_digits(i: usize, d: &i32, digits: &Vec<i32>) -> u8 {
+        fn compare_digits(i: usize, d: &i32, digits: &[i32]) -> u8 {
             let digit = digits[i];
             (d == &digit) as u8
         }
@@ -57,7 +59,7 @@ impl Solution {
         let res = digits
             .into_iter()
             .enumerate()
-            .map(|(i, d)| compare_digits(i, d, &reversed_digits))
+            .map(|(i, d)| compare_digits(i, &d, &reversed_digits))
             .reduce(|acc, x| acc * x)
             .unwrap();
 
